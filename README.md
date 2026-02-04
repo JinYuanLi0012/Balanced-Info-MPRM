@@ -71,6 +71,7 @@ cat converted_hard/*_prm.jsonl > all_combined_data_hard.jsonl
 
 #### BIS subset
 > **BIS hyperparameters**: `--top-ratio` is the fraction of rollouts kept from each annotation file (e.g., `0.25` keeps the top 25%). `--alpha` is the BIS smoothing hyperparameter in \((p_{pos}(1-p_{pos})+\alpha)\cdot R\). In practice, when using a **smaller** `--top-ratio` (more aggressive filtering), it can help to set a **slightly larger** `--alpha` for more stable selection.
+
 ```bash
 cd ${PROJECT_ROOT}
 
@@ -100,5 +101,16 @@ datasets/VisualPRM400K-v1.1-raw/
     ...
 ```
 
+### 4. Model Training
+We provide a ready-to-run training script `shell/scripts/visualprm400k_train.sh`.
+By default, it reads the dataset meta config from `shell/data/meta_visualprm400k.json`
+and trains an InternVL2.5 model with DeepSpeed ZeRO-3 (`configs/zero_stage3_config.json`).
 
+The default parameters are suitable for 4 GPUs with at least 80GB of memory.
 
+> To train on a different dataset/split, edit the `annotation` field in `shell/data/meta_visualprm400k.json`
+> (e.g., switch from `.../all_combined_data_hard.jsonl` to a BIS subset jsonl).
+
+```bash
+bash shell/scripts/visualprm400k_train.sh
+```
