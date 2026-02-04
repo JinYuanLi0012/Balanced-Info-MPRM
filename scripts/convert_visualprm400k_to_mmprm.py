@@ -2,9 +2,9 @@ import os
 import glob
 import jsonlines
 
-SRC_DIR = os.path.join("datasets", "VisualPRM400K", "annotations")
-DST_SOFT = os.path.join("datasets", "VisualPRM400K", "converted_soft")
-DST_HARD = os.path.join("datasets", "VisualPRM400K", "converted_hard")
+SRC_DIR = os.path.join("datasets", "VisualPRM400K-v1.1-raw", "annotations")
+DST_SOFT = os.path.join("datasets", "VisualPRM400K-v1.1-raw", "converted_soft")
+DST_HARD = os.path.join("datasets", "VisualPRM400K-v1.1-raw", "converted_hard")
 
 HARD_THR = 0.0
 
@@ -94,3 +94,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+
