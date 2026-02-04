@@ -1,6 +1,5 @@
 """
 Build BIS-selected training subset from VisualPRM400K annotations.
-
 """
 
 from __future__ import annotations
