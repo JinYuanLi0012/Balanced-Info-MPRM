@@ -2,7 +2,7 @@
 
 > Make Multimodal Process Reward Model (MPRM) training 10× cheaper by selecting informative Monte Carlo (MC)-annotated rollouts—no extra supervision, no extra model calls.
 
-Check out our [paper](https://arxiv.org/abs/2602.11111)for the details.
+Check out our [paper](https://arxiv.org/abs/2602.11111) for the details.
 
 ## 🔥 Updates
 
@@ -21,4 +21,6 @@ Built on empirical observations and grounded analysis, we propose the Balanced-I
 
 ## ⚡️ Quickstart Guide
 
-Getting started with RelayLLM is straightforward.
+Getting started is straightforward.
+
+### 1. Configure Environment and Prepare Dirs
