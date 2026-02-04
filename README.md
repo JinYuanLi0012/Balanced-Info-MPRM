@@ -139,7 +139,7 @@ ANN="datasets/VisualProcessBench/test.jsonl"
 IMG_ROOT="datasets/VisualProcessBench"
 OUT_DIR="${CKPT_DIR}/eval_visualprocessbench"
 
-torchrun --nproc_per_node=${GPUS} eval/prm/evaluate_visualprocessbench_prm_new.py \
+torchrun --nproc_per_node=${GPUS} eval/prm/evaluate_visualprocessbench_prm.py \
   --checkpoint "${CKPT_DIR}" \
   --annotation "${ANN}" \
   --image-root "${IMG_ROOT}" \
