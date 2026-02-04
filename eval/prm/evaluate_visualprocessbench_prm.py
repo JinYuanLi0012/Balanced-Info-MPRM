@@ -108,8 +108,6 @@ class VisualProcessBenchPRMDataset(torch.utils.data.Dataset):
         self.max_num = max_num
         self.grid_max_cols = grid_max_cols
         self.transform = build_transform(is_train=False, input_size=input_size)
-
-        # load jsonl（逐行解析，避免额外依赖）
         self.data: List[Dict[str, Any]] = []
         with open(annotation_path, 'r', encoding='utf-8') as f:
             for line in f:
@@ -289,7 +287,6 @@ def evaluate_model():
     print(f'Results saved to {output_path}')
 
     # Compute metrics
-    # 先收集每来源与全局的 (y, s)，过滤中立(0)
     per_source_pairs: Dict[str, Dict[str, list]] = {}
     global_y_all: List[int] = []
     global_s_all: List[float] = []
@@ -307,7 +304,6 @@ def evaluate_model():
             global_y_all.append(1 if y == 1 else -1)
             global_s_all.append(float(s))
 
-    # 可选 AUC
     auc = None
     if _HAS_SKLEARN and len(global_y_all) > 0:
         y_auc = [1 if yy == 1 else 0 for yy in global_y_all]
@@ -316,11 +312,9 @@ def evaluate_model():
         except Exception:
             auc = None
 
-    # 自动扫阈值（以“按来源 Macro-F1 的 micro 平均”为优化目标；同时报告池化 Macro-F1 的最优阈值）
     selected_threshold = args.threshold
     auto_info = None
     if args.auto and len(global_s_all) > 0:
-        # 候选阈值：分数去重后四舍五入到 1e-4，数量过大则等距降采样至 ~1000
         cands = sorted(set(round(x, 4) for x in global_s_all))
         if len(cands) > 1000:
             step = max(1, len(cands) // 1000)
@@ -330,7 +324,7 @@ def evaluate_model():
         best_pooled = (-1.0, 0.5)  # (score, thr)
 
         for t in cands:
-            # micro over sources（各来源 Macro-F1 用有效步数加权）
+            # micro over sources
             weighted_macro_sum = 0.0
             counted = 0
             for d in per_source_pairs.values():
@@ -345,7 +339,6 @@ def evaluate_model():
             if micro > best_micro[0]:
                 best_micro = (micro, t)
 
-            # 池化后 Macro-F1
             y_pred_global = [1 if ss >= t else -1 for ss in global_s_all]
             overall_macro = _macro_f1_binary(global_y_all, y_pred_global)
             if overall_macro['macro_f1'] > best_pooled[0]:
@@ -362,7 +355,6 @@ def evaluate_model():
         print(f"[auto] Best pooled Macro-F1 = {best_pooled[0]:.4f} @ threshold = {best_pooled[1]:.4f}")
         print(f"[auto] Using threshold = {selected_threshold:.4f} for final metrics")
 
-    # 使用 selected_threshold 计算最终各来源与总体指标（保持原有输出格式）
     per_source: Dict[str, Dict[str, Any]] = {}
     global_y_true: List[int] = []
     global_y_pred: List[int] = []
@@ -392,7 +384,6 @@ def evaluate_model():
         m = _macro_f1_binary(d['y_true'], d['y_pred'])
         metrics_summary['per_source'][src] = m
     
-    # 按来源做 micro 平均（用该来源有效步数加权）
     total_steps_over_sources = sum(len(d['y_true']) for d in per_source.values())
     weighted_macro_sum = 0.0
     for src, d in per_source.items():
@@ -402,7 +393,6 @@ def evaluate_model():
         weighted_macro_sum += metrics_summary['per_source'][src]['macro_f1'] * n_src
     micro_over_sources = (weighted_macro_sum / total_steps_over_sources) if total_steps_over_sources > 0 else 0.0
 
-    # 参考：池化后 Macro-F1（所有来源合并后再算一次）
     overall_macro = _macro_f1_binary(global_y_true, global_y_pred)
     metrics_summary['overall'] = {
         'micro_over_sources': micro_over_sources,
@@ -422,11 +412,7 @@ def evaluate_model():
     print('Per-source Macro-F1:')
     for src, m in metrics_summary['per_source'].items():
         print(f" - {src}: macro_f1={m['macro_f1']:.4f} (pos={m['f1_positive']:.4f}, neg={m['f1_negative']:.4f})")
-
-    # 论文口径：按来源的 Macro-F1 做 micro 平均
     print(f"Overall (micro over sources): {metrics_summary['overall']['micro_over_sources']:.4f}")
-
-    # 参考口径：池化后 Macro-F1（与之前的 Overall 等价）
     print(
         f"Pooled Macro-F1: {metrics_summary['overall']['macro_f1_pooled']:.4f} "
         f"(pos={metrics_summary['overall']['f1_positive']:.4f}, "
