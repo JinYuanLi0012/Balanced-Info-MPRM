@@ -112,3 +112,39 @@ The default parameters are suitable for 4 GPUs with at least 80GB of memory.
 ```bash
 bash shell/scripts/visualprm400k_train.sh
 ```
+
+### 5. Evaluation
+
+We provide the VisualProcessBench evaluation script:
+
+- `eval/prm/evaluate_visualprocessbench_prm_new.py`
+
+Assume VisualProcessBench is placed as:
+
+```bash
+datasets/VisualProcessBench/
+  -- test.jsonl
+  -- images         # VisualProcessBench images referenced by `test.jsonl`
+```
+
+Run evaluation (single or multi-GPU):
+
+```bash
+cd ${PROJECT_ROOT}   # ${PROJECT_ROOT} = Bananced-Info/
+export PYTHONPATH="$(pwd)/src"
+
+GPUS=4
+CKPT_DIR="/path/to/your/checkpoint"            # e.g., work_dirs/.../checkpoint-50
+ANN="datasets/VisualProcessBench/test.jsonl"
+IMG_ROOT="datasets/VisualProcessBench"
+OUT_DIR="${CKPT_DIR}/eval_visualprocessbench"
+
+torchrun --nproc_per_node=${GPUS} eval/prm/evaluate_visualprocessbench_prm_new.py \
+  --checkpoint "${CKPT_DIR}" \
+  --annotation "${ANN}" \
+  --image-root "${IMG_ROOT}" \
+  --out-dir "${OUT_DIR}" \
+  --auto \
+  --dynamic \
+  --max-num 6
+```
