@@ -1,4 +1,3 @@
-# 文件: datasets/VisualPRM400K/tools/convert_visualprm400k_to_mmprm.py
 import os
 import glob
 import jsonlines
@@ -7,21 +6,13 @@ SRC_DIR = os.path.join("datasets", "VisualPRM400K", "annotations")
 DST_SOFT = os.path.join("datasets", "VisualPRM400K", "converted_soft")
 DST_HARD = os.path.join("datasets", "VisualPRM400K", "converted_hard")
 
-# 硬标签阈值，可按需调整
 HARD_THR = 0.0
 
 def norm_question(rec):
-    # 优先使用 question_orig，没有则用 question
     q = rec.get("question_orig") or rec.get("question") or ""
     return q.strip()
 
 def build_process_and_labels(steps, binarize=False, thr=0.5):
-    """
-    将 steps_with_score 转为:
-      - Process 文本（每步末尾追加 <prm>）
-      - 标签列表（软: [p1, p2, ...]; 硬: [0/1, ...]）
-    会跳过无效步(无 step 或无 score)；确保步数与标签对齐。
-    """
     proc_lines = []
     labels = []
     for s in steps or []:
@@ -42,12 +33,11 @@ def build_process_and_labels(steps, binarize=False, thr=0.5):
 
 def convert_record(rec, binarize=False, thr=0.5):
     """
-    输出为本项目所需格式:
     {
       "image": "VisualPRM400K-v1.1-Raw/.../xxx.png",
       "conversations": [
         {"from": "human", "value": "Question: ...\nProcess: ...<prm>\n\n...<prm>"},
-        {"from": "gpt",   "value": [p1, p2, ...]}   # 软: 概率; 硬: 0/1
+        {"from": "gpt",   "value": [p1, p2, ...]}  
       ]
     }
     """
@@ -89,12 +79,10 @@ def main():
 
             for rec in reader:
                 total += 1
-                # 软标签
                 out_soft = convert_record(rec, binarize=False)
                 if out_soft is not None:
                     w_soft.write(out_soft)
                     kept_soft += 1
-                # 硬标签
                 out_hard = convert_record(rec, binarize=True, thr=HARD_THR)
                 if out_hard is not None:
                     w_hard.write(out_hard)
@@ -104,4 +92,5 @@ def main():
         print(f"{base}: total={total}, hard_kept={kept_hard} -> {dst_hard}")
 
 if __name__ == "__main__":
+
     main()
