@@ -1,0 +1,10 @@
+{
+  "visualprm400k": {
+    "root": "datasets/VisualPRM400K-v1.1-raw",
+    "annotation": "datasets/VisualPRM400K-v1.1-raw/all_combined_data_hard.jsonl",
+    "data_augment": false,
+    "repeat_time": 1,
+    "length": 400000
+  }
+}
+
