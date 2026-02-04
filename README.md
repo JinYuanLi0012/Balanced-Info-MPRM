@@ -21,9 +21,7 @@ Built on empirical observations and grounded analysis, we propose the Balanced-I
 
 ## ⚡️ Quickstart Guide
 
-Getting started is straightforward.
-
-### 1. Configure Environment and Prepare Dirs
+### 1. Configure Environment
 ```bash
 git clone https://github.com/JinYuanLi0012/Balanced-Info-MPRM.git
 cd Balanced-Info-MPRM
@@ -34,3 +32,73 @@ conda activate Balanced-Info-MPRM
 pip install uv
 uv pip install -r requirements.txt
 ```
+
+### 2. Data Prepare
+
+We use the MC-annotated VisualPRM400K dataset:
+
+- Hugging Face: `OpenGVLab/VisualPRM400K-v1.1-Raw`
+
+Download the dataset from Hugging Face and place it under:
+
+${PROJECT_ROOT}/datasets/VisualPRM400K-v1.1-raw/
+
+```bash
+datasets/VisualPRM400K-v1.1-raw/
+  -- annotations/                # original VisualPRM400K annotations (=38 .jsonl files)
+    -- ai2d_train_12k_en_20240410_extracted.jsonl
+    -- chartqa_trainval_30k_w_csv_en_20240402_extracted.jsonl
+    ...
+  -- VisualPRM400K-v1.1-Raw/     # image folders (=38 folders)
+    -- ai2d
+    -- chartqa
+    ...
+```
+
+### 3. Full-data and BIS-selected Training sets Process
+
+#### Full-data (100%)
+1) Convert raw VisualPRM400K annotations to PRM hard-label jsonl (38 files)
+```bash
+python scripts/convert_visualprm400k_to_mmprm.py
+```
+
+2) Merge all hard-label PRM files into one full training set
+```bash
+cd ${PROJECT_ROOT}/datasets/VisualPRM400K-v1.1-raw
+cat converted_hard/*_prm.jsonl > all_combined_data_hard.jsonl
+```
+
+#### BIS subset
+> **BIS hyperparameters**: `--top-ratio` is the fraction of rollouts kept from each annotation file (e.g., `0.25` keeps the top 25%). `--alpha` is the BIS smoothing hyperparameter in \((p_{pos}(1-p_{pos})+\alpha)\cdot R\). In practice, when using a **smaller** `--top-ratio` (more aggressive filtering), it can help to set a **slightly larger** `--alpha` for more stable selection.
+```bash
+cd ${PROJECT_ROOT}
+
+python scripts/build_bis_subset.py \ # 10% subset
+  --annotations-dir datasets/VisualPRM400K-v1.1-raw/annotations \
+  --alpha 0.2 \
+  --top-ratio 0.1 \
+  --output datasets/VisualPRM400K-v1.1-raw/bis10_alpha0_2_combined_data_hard_prm.jsonl
+
+python scripts/build_bis_subset.py \ # 25% subset
+  --annotations-dir datasets/VisualPRM400K-v1.1-raw/annotations \
+  --alpha 0.05 \
+  --top-ratio 0.25 \
+  --output datasets/VisualPRM400K-v1.1-raw/bis25_alpha0_05_combined_data_hard_prm.jsonl
+```
+
+After running, you should have:
+
+```bash
+datasets/VisualPRM400K-v1.1-raw/
+  -- all_combined_data_hard.jsonl                     # full PRM training data
+  -- bis10_alpha0_2_combined_data_hard_prm.jsonl      # BIS-subsets (10%) training data
+  -- bis25_alpha0_05_combined_data_hard_prm.jsonl     # BIS-subsets (25%) training data
+  -- converted_hard/
+    -- ai2d_train_12k_en_20240410_extracted_prm.jsonl
+    -- chartqa_trainval_30k_w_csv_en_20240402_extracted_prm.jsonl
+    ...
+```
+
+
+
