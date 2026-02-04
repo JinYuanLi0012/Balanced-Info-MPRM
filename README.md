@@ -24,3 +24,13 @@ Built on empirical observations and grounded analysis, we propose the Balanced-I
 Getting started is straightforward.
 
 ### 1. Configure Environment and Prepare Dirs
+```bash
+git clone https://github.com/JinYuanLi0012/Balanced-Info-MPRM.git
+cd Balanced-Info-MPRM
+
+conda create -n Balanced-Info-MPRM python=3.10 -y
+conda activate Balanced-Info-MPRM
+
+pip install uv
+uv pip install -r requirements.txt
+```
