@@ -73,13 +73,15 @@ cat converted_hard/*_prm.jsonl > all_combined_data_hard.jsonl
 ```bash
 cd ${PROJECT_ROOT}
 
-python scripts/build_bis_subset.py \ # 10% subset
+# 10% subset
+python scripts/build_bis_subset.py \ 
   --annotations-dir datasets/VisualPRM400K-v1.1-raw/annotations \
   --alpha 0.2 \
   --top-ratio 0.1 \
   --output datasets/VisualPRM400K-v1.1-raw/bis10_alpha0_2_combined_data_hard_prm.jsonl
 
-python scripts/build_bis_subset.py \ # 25% subset
+# 25% subset
+python scripts/build_bis_subset.py \ 
   --annotations-dir datasets/VisualPRM400K-v1.1-raw/annotations \
   --alpha 0.05 \
   --top-ratio 0.25 \
