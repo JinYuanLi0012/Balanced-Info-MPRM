@@ -148,3 +148,15 @@ torchrun --nproc_per_node=${GPUS} eval/prm/evaluate_visualprocessbench_prm_new.p
   --dynamic \
   --max-num 6
 ```
+
+
+## 🎓 Acknowledgements
+
+Our codebase and experimental pipeline are inspired by and built upon prior open-source efforts. In particular, we would like to thank the authors of [**MM-PRM**](https://github.com/ModalMinds/MM-PRM) for releasing their implementation, and the [**VisualPRM**](https://internvl.github.io/blog/2025-03-13-VisualPRM/) project for providing the model/data/benchmark ecosystem that greatly facilitated our research. We are very grateful for their excellent work.
+
+## 💬 Citation
+If our work is useful for you, please consider citing our paper:
+```
+xxx
+}
+```
