@@ -132,7 +132,7 @@ datasets/VisualProcessBench/
 Run evaluation (single or multi-GPU):
 
 ```bash
-cd ${PROJECT_ROOT}   # ${PROJECT_ROOT} = Bananced-Info/
+cd ${PROJECT_ROOT}   # ${PROJECT_ROOT} = Balanced-Info-MPRM/
 export PYTHONPATH="$(pwd)/src"
 
 GPUS=4
