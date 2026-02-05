@@ -39,8 +39,6 @@ We use the MC-annotated VisualPRM400K dataset:
 
 Download the dataset from Hugging Face and place it under:
 
-${PROJECT_ROOT}/datasets/VisualPRM400K-v1.1-raw/
-
 ```bash
 datasets/VisualPRM400K-v1.1-raw/
   -- annotations/                # original VisualPRM400K annotations (=38 .jsonl files)
@@ -138,7 +136,7 @@ export PYTHONPATH="$(pwd)/src"
 GPUS=4
 CKPT_DIR="/path/to/your/checkpoint"            # e.g., work_dirs/.../checkpoint-50
 ANN="datasets/VisualProcessBench/test.jsonl"
-IMG_ROOT="datasets/VisualProcessBench"
+IMG_ROOT="datasets/VisualProcessBench/images"
 OUT_DIR="${CKPT_DIR}/eval_visualprocessbench"
 
 torchrun --nproc_per_node=${GPUS} eval/prm/evaluate_visualprocessbench_prm.py \
