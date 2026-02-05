@@ -7,11 +7,9 @@ import random
 import re
 import time
 from typing import List, Dict, Any, Tuple
-
 import torch
 from PIL import Image
 from tqdm import tqdm
-
 from internvl.model import load_model_and_tokenizer
 from internvl.train.dataset import build_transform, dynamic_preprocess
 
