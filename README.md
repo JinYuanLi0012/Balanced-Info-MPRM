@@ -4,7 +4,7 @@
 
 ## 🔥 Updates
 
-- **[2026-02-04]** We released our [paper](https://arxiv.org/abs/2602.11111) and [code](https://github.com/JinYuanLi0012/Balanced-Info-MPRM). BIS can match full-data performance using as little as **10%** of the training data.
+- **[2026-02-04]** We released our [paper](https://arxiv.org/abs/2602.04145) and [code](https://github.com/JinYuanLi0012/Balanced-Info-MPRM). BIS can match full-data performance using as little as **10%** of the training data.
 
 ## 🧩 Overview
 Training MPRMs usually relies on large-scale MC-annotated corpora, which makes training expensive. Our study shows that random subsampling saturates quickly, implying strong redundancy in existing MC rollouts. 
