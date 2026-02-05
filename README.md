@@ -159,6 +159,13 @@ Our codebase and experimental pipeline are inspired by and built upon prior open
 ## 💬 Citation
 If our work is useful for you, please consider citing our paper:
 ```
-xxx
+@misc{li2026trainingdataefficiencymultimodal,
+      title={Training Data Efficiency in Multimodal Process Reward Models}, 
+      author={Jinyuan Li and Chengsong Huang and Langlin Huang and Shaoyang Xu and Haolin Liu and Wenxuan Zhang and Jiaxin Huang},
+      year={2026},
+      eprint={2602.04145},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2602.04145}, 
 }
 ```
