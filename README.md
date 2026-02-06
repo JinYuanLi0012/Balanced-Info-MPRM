@@ -4,6 +4,7 @@
 
 ## 🔥 Updates
 
+- **[2026-02-05]** Balanced-Info got `#3 Paper of the day` in [huggingface daily paper](https://huggingface.co/papers/2602.04145).
 - **[2026-02-04]** We released our [paper](https://arxiv.org/abs/2602.04145) and [code](https://github.com/JinYuanLi0012/Balanced-Info-MPRM). BIS can match full-data performance using as little as **10%** of the training data.
 
 ## 🧩 Overview
