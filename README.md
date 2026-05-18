@@ -4,8 +4,9 @@
 
 ## 🔥 Updates
 
-- **[2026-02-05]** Balanced-Info got `#3 Paper of the day` in [huggingface daily paper](https://huggingface.co/papers/2602.04145).
-- **[2026-02-04]** We released our [paper](https://arxiv.org/abs/2602.04145) and [code](https://github.com/JinYuanLi0012/Balanced-Info-MPRM). BIS can match full-data performance using as little as **10%** of the training data.
+- **[2026-05]** Check out our [latest research](https://arxiv.org/abs/2605.15529) on Process Reward Models. We taught PRMs to express uncertainty about their own predictions while outputting rewards!
+- **[2026-02]** Balanced-Info got `#3 Paper of the day` in [huggingface daily paper](https://huggingface.co/papers/2602.04145).
+- **[2026-02]** We released our [paper](https://arxiv.org/abs/2602.04145) and [code](https://github.com/JinYuanLi0012/Balanced-Info-MPRM). BIS can match full-data performance using as little as **10%** of the training data.
 
 ## 🧩 Overview
 Training MPRMs usually relies on large-scale MC-annotated corpora, which makes training expensive. Our study shows that random subsampling saturates quickly, implying strong redundancy in existing MC rollouts. 
@@ -166,5 +167,15 @@ If our work is useful for you, please consider citing our paper:
       archivePrefix={arXiv},
       primaryClass={cs.LG},
       url={https://arxiv.org/abs/2602.04145}, 
+}
+
+@misc{li2026processrewardslearnedreliability,
+      title={Process Rewards with Learned Reliability}, 
+      author={Jinyuan Li and Langlin Huang and Chengsong Huang and Shaoyang Xu and Donghong Cai and Yuyi Yang and Wenxuan Zhang and Jiaxin Huang},
+      year={2026},
+      eprint={2605.15529},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2605.15529}, 
 }
 ```
