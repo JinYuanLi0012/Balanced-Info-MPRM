@@ -4,7 +4,7 @@
 
 ## 🔥 Updates
 
-- **[2026-05]** Check out our [latest research](https://arxiv.org/abs/2605.15529) on Process Reward Models. We taught PRMs to express uncertainty about their own predictions while outputting rewards!
+- **[2026-05]** Check out our [latest research](https://arxiv.org/abs/2605.15529) on Process Reward Models. We taught PRMs to express uncertainty about their own predictions while outputting rewards! This additional learned uncertainty naturally benefits downstream applications such as test-time scaling.
 - **[2026-02]** Balanced-Info got `#3 Paper of the day` in [huggingface daily paper](https://huggingface.co/papers/2602.04145).
 - **[2026-02]** We released our [paper](https://arxiv.org/abs/2602.04145) and [code](https://github.com/JinYuanLi0012/Balanced-Info-MPRM). BIS can match full-data performance using as little as **10%** of the training data.
 
